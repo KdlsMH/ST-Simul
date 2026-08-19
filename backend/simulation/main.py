@@ -12,13 +12,16 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 
 try:
-    from .schemas import ScenarioRequest, SpeedRequest, StartRequest
+    from .schemas import ScenarioRequest, SelectedAgentsRequest, SpeedRequest, StartRequest
     from .traci_adapter import InternalSimulationProvider, create_provider
+    from .run_recorder import DEFAULT_OUTPUT_ROOT, build_run_zip, list_runs, read_run_detail, resolve_run_dir
 except ImportError:  # Supports: cd simulation && uvicorn main:app
-    from schemas import ScenarioRequest, SpeedRequest, StartRequest
+    from schemas import ScenarioRequest, SelectedAgentsRequest, SpeedRequest, StartRequest
     from traci_adapter import InternalSimulationProvider, create_provider
+    from run_recorder import DEFAULT_OUTPUT_ROOT, build_run_zip, list_runs, read_run_detail, resolve_run_dir
 
 
 UPDATE_INTERVAL = max(0.05, float(os.getenv("SIMULATION_UPDATE_INTERVAL_MS", "100")) / 1000.0)
@@ -43,6 +46,13 @@ ENTITY_DELTA_FIELDS = (
 
 def _engine():
     return provider.engine if isinstance(provider, InternalSimulationProvider) else None
+
+
+def _run_output_root() -> Path:
+    engine = _engine()
+    if engine and getattr(engine, "recorder", None):
+        return engine.recorder.output_root
+    return DEFAULT_OUTPUT_ROOT
 
 
 def _model_dict(value):
@@ -168,6 +178,10 @@ async def lifespan(_: FastAPI):
             if task:
                 task.cancel()
         await asyncio.gather(*(task for task in (loop_task, weather_task) if task), return_exceptions=True)
+        # provider.stop() -> engine.stop() -> recorder.on_stop() already
+        # finalizes any active run (tagged "user_stop") as part of normal
+        # shutdown; recorder.on_shutdown() exists as a defensive flush for
+        # callers that bypass that path, but is not needed here.
         await provider.stop()
         clients.clear()
 
@@ -205,6 +219,7 @@ async def simulation_status():
         "provider_message": provider_message,
         "network_runtime": engine.network_runtime if engine else None,
         "update_interval_ms": int(UPDATE_INTERVAL * 1000),
+        "active_run_id": engine.recorder.active_run_id if engine and getattr(engine, "recorder", None) else None,
     }
 
 
@@ -284,6 +299,19 @@ async def simulation_scenario(request: ScenarioRequest):
     return await simulation_status()
 
 
+@app.post("/api/simulation/selection")
+async def simulation_selection(request: SelectedAgentsRequest):
+    """Tells the active run's trajectory writer which agents the UI has
+    selected, so their positions are recorded every step (not just when
+    downsampled or risk-event-involved). Purely additive Recorder metadata;
+    it does not affect simulation behaviour."""
+    engine = _engine()
+    if engine and getattr(engine, "recorder", None):
+        engine.recorder.set_selected_agents(request.agent_ids)
+        return {"selected_agent_ids": sorted(engine.recorder.selected_agent_ids)}
+    return {"selected_agent_ids": []}
+
+
 @app.get("/api/simulation/entities")
 async def simulation_entities():
     return {"entities": await provider.get_entities()}
@@ -343,6 +371,36 @@ async def simulation_network_quality():
     if not path.exists():
         raise HTTPException(status_code=404, detail="먼저 python -m simulation.tools.validate_network를 실행하세요.")
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+@app.get("/api/simulation/runs")
+async def simulation_runs():
+    """Read-only listing of previously recorded Runs (one per UI Start).
+
+    This is not a batch-execution API: it only lists results that already
+    exist on disk under simulation_output/.
+    """
+    return {"runs": list_runs(_run_output_root())}
+
+
+@app.get("/api/simulation/runs/{run_id}")
+async def simulation_run_detail(run_id: str):
+    detail = read_run_detail(_run_output_root(), run_id)
+    if detail is None:
+        raise HTTPException(status_code=404, detail="알 수 없는 run_id입니다.")
+    return detail
+
+
+@app.get("/api/simulation/runs/{run_id}/download")
+async def simulation_run_download(run_id: str):
+    run_dir = resolve_run_dir(_run_output_root(), run_id)
+    if run_dir is None:
+        raise HTTPException(status_code=404, detail="알 수 없는 run_id입니다.")
+    payload = build_run_zip(run_dir)
+    return Response(
+        content=payload, media_type="application/zip",
+        headers={"Content-Disposition": f'attachment; filename="{run_id}.zip"'},
+    )
 
 
 @app.websocket("/ws/simulation")

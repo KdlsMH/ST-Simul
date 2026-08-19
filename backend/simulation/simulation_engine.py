@@ -47,6 +47,7 @@ class SimulationEngine:
         self.random = random.Random(seed)
         self.seed = seed
         graph_payload, self.network_runtime = load_runtime_graph(self.data_dir, mode=network_mode)
+        self.graph_payload = graph_payload
         self.graph = MobilityGraph(graph_payload)
         self.routes = self.graph  # compatibility for callers that inspect route_id
         self.scenarios = ScenarioManager(self.data_dir / "sample_scenario.json")
@@ -57,6 +58,7 @@ class SimulationEngine:
         self.conflict_areas = ConflictAreaManager(self.data_dir / "conflict_areas.json")
         self.behaviors = BehaviorManager(Path(__file__).resolve().parent / "config" / "behavior_profiles.json", self.random)
         self.statistics_manager = StatisticsManager()
+        self.recorder = None  # attached by the provider layer; see run_recorder.py
         self.visited_edges = {agent_type: set() for agent_type in ("car", "person", "scooter")}
         self.planned_edges = {agent_type: set() for agent_type in ("car", "person", "scooter")}
         self.status = "stopped"
@@ -190,19 +192,29 @@ class SimulationEngine:
         if scenario_name or counts:
             self.configure(scenario_name or self.scenario_name, counts)
         self.status = "running"
+        if self.recorder:
+            self.recorder.on_start()
 
     def pause(self) -> None:
         if self.status == "running":
             self.status = "paused"
+            if self.recorder:
+                self.recorder.on_pause()
 
     def resume(self) -> None:
         if self.status == "paused":
             self.status = "running"
+            if self.recorder:
+                self.recorder.on_resume()
 
     def stop(self) -> None:
+        if self.recorder:
+            self.recorder.on_stop()
         self.status = "stopped"
 
     def reset(self) -> None:
+        if self.recorder:
+            self.recorder.on_reset()
         self.status = "stopped"
         self.simulation_time = 0.0
         self.speed_multiplier = 1.0
@@ -376,6 +388,8 @@ class SimulationEngine:
             self.statistics_manager.sample(entity, self.simulation_time)
             if entity["route_distance"] >= path.total_length - 1e-6:
                 self.statistics_manager.complete_trip(entity, self.simulation_time)
+                if self.recorder:
+                    self.recorder.on_trip_completed(entity, self.simulation_time)
                 result = self.trip_manager.arrive(entity, self.simulation_time)
                 self._update_spatial_state(entity, path, segment)
                 if result == "despawn":
@@ -390,6 +404,8 @@ class SimulationEngine:
             enabled=bool(self.scenario.get("risk_events_enabled", True)),
         )
         self.statistics_manager.record_events(self.last_step_events, self.entities, dt, self.simulation_time)
+        if self.recorder:
+            self.recorder.on_step(self.entities, self.last_step_events, self.simulation_time)
         for entity_id in despawned:
             self.entities.pop(entity_id, None)
             self.paths.pop(entity_id, None)

@@ -5,8 +5,10 @@ import os
 from .base_provider import SimulationProvider
 try:
     from ..simulation_engine import SimulationEngine
+    from ..run_recorder import SimulationRunRecorder
 except ImportError:  # Supports: cd simulation && uvicorn main:app
     from simulation_engine import SimulationEngine
+    from run_recorder import SimulationRunRecorder
 
 
 class InternalSimulationProvider(SimulationProvider):
@@ -17,6 +19,8 @@ class InternalSimulationProvider(SimulationProvider):
         except ValueError as exc:
             raise ValueError("SIMULATION_SEED must be a single integer") from exc
         self.engine = engine or (SimulationEngine(data_dir, seed=seed) if data_dir else SimulationEngine(seed=seed))
+        if self.engine.recorder is None:
+            self.engine.recorder = SimulationRunRecorder(self.engine, provider_name=type(self).__name__)
 
     async def start(self): self.engine.start()
     async def stop(self): self.engine.stop()

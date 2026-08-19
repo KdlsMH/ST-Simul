@@ -34,9 +34,23 @@ WEATHER_API_URL=http://127.0.0.1:8000
 - `POST /api/simulation/start`, `/pause`, `/resume`, `/reset`
 - `POST /api/simulation/speed`
 - `POST /api/simulation/scenario`
+- `POST /api/simulation/selection` (Run Recorder에 trajectory를 매 스텝 기록할 Agent ID 목록 전달)
 - `GET /api/simulation/entities`, `/events`, `/statistics`
 - `GET /api/simulation/agents/{agent_id}` (개별 metrics와 최근 trajectory)
+- `GET /api/simulation/runs`, `/runs/{run_id}`, `/runs/{run_id}/download` (기록된 Run 조회/다운로드, read-only)
 - `WS /ws/simulation`
+
+## Run Recorder
+
+사용자가 `/api/simulation/start`로 Simulation을 시작할 때마다 `SimulationRunRecorder`(`run_recorder.py`)가 독립된 Run을 자동으로 기록합니다. Pause/Resume은 같은 Run을 유지하고, Reset/Stop은 해당 Run을 `completed`로 확정합니다. 결과는 기본적으로 저장소 루트의 `simulation_output/run_<timestamp>_<id>/`에 저장됩니다.
+
+```env
+SIMULATION_RECORDING_ENABLED=true
+SIMULATION_RUN_OUTPUT_DIR=../simulation_output
+SIMULATION_TRAJECTORY_SAMPLE_INTERVAL_SEC=1.0
+```
+
+Run 디렉터리 구성: `manifest.json`, `simulation_statistics.json`, `risk_events.jsonl`(전체 Risk Event, UI의 최근 500개 메모리와 별개), `completed_trips.csv`, `agent_summary.csv`, `trajectory.jsonl`(선택/Risk Event/다운샘플 Agent), `simulation.log`. 비정상 종료 시 `manifest.partial.json`만 남아 미완료 Run을 구분할 수 있습니다. Recorder는 TTC/PET/Risk 판정을 다시 계산하지 않고 `statistics_manager`/`risk_engine`이 이미 계산한 값만 기록하므로, Recorder를 껐다 켜도 Simulation 결과 자체는 달라지지 않습니다.
 
 ## 좌표 데이터 주의
 

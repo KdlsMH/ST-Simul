@@ -24,6 +24,10 @@ class SpeedRequest(BaseModel):
     multiplier: float = Field(..., ge=0.1, le=10.0)
 
 
+class SelectedAgentsRequest(BaseModel):
+    agent_ids: List[str] = Field(default_factory=list)
+
+
 class ScenarioRequest(BaseModel):
     scenario: str
     counts: Optional[EntityCounts] = None
