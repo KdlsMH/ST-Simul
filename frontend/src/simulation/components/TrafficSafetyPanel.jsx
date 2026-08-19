@@ -4,13 +4,56 @@ import { simulationStore, useSimulationStore } from "../stores/simulationStore";
 import { SIMULATION_API_URL } from "../utils/apiConfig";
 import { RouteEditorPanel } from "./RouteEditorPanel";
 
-const SCENARIOS = [
-  ["normal", "일반"], ["morning_rush", "오전 등교"], ["rush_hour", "혼잡 시간"], ["class_change", "수업 교체"],
-  ["lunch_time", "점심 시간"], ["leaving_campus", "하교 시간"], ["jaywalking", "무단횡단"],
-  ["scooter_speeding", "킥보드 과속"], ["scooter_wrong_way", "킥보드 역주행"],
-  ["crosswalk_conflict", "횡단보도 상충"], ["rain", "우천"], ["night", "야간"],
-  ["high_pedestrian_density", "보행자 밀집"], ["high_scooter_density", "킥보드 밀집"],
-  ["vehicle_congestion", "차량 정체"], ["emergency_vehicle", "긴급차량"],
+const SCENARIO_GROUPS = [
+  {
+    label: "기본 시나리오",
+    options: [
+      ["normal", "일반"], ["morning_rush", "오전 등교"], ["rush_hour", "혼잡 시간"], ["class_change", "수업 교체"],
+      ["lunch_time", "점심 시간"], ["leaving_campus", "하교 시간"], ["jaywalking", "무단횡단"],
+      ["scooter_speeding", "킥보드 과속"], ["scooter_wrong_way", "킥보드 역주행"],
+      ["crosswalk_conflict", "횡단보도 상충"], ["rain", "우천"], ["night", "야간"],
+      ["high_pedestrian_density", "보행자 밀집"], ["high_scooter_density", "킥보드 밀집"],
+      ["vehicle_congestion", "차량 정체"], ["emergency_vehicle", "긴급차량"],
+    ],
+  },
+  {
+    label: "EXP1 · 킥보드 침투율",
+    options: [
+      ["EXP1_P00", "EXP1 P00 (0%)"], ["EXP1_P10", "EXP1 P10 (10%)"], ["EXP1_P20", "EXP1 P20 (20%)"],
+      ["EXP1_P30", "EXP1 P30 (30%)"], ["EXP1_P40", "EXP1 P40 (40%)"],
+    ],
+  },
+  {
+    label: "EXP2 · 보행자 밀도 × 침투율",
+    options: [
+      ["EXP2_LOW_P00", "EXP2 LOW P00"], ["EXP2_LOW_P10", "EXP2 LOW P10"], ["EXP2_LOW_P20", "EXP2 LOW P20"],
+      ["EXP2_LOW_P30", "EXP2 LOW P30"], ["EXP2_LOW_P40", "EXP2 LOW P40"],
+      ["EXP2_NORMAL_P00", "EXP2 NORMAL P00"], ["EXP2_NORMAL_P10", "EXP2 NORMAL P10"], ["EXP2_NORMAL_P20", "EXP2 NORMAL P20"],
+      ["EXP2_NORMAL_P30", "EXP2 NORMAL P30"], ["EXP2_NORMAL_P40", "EXP2 NORMAL P40"],
+      ["EXP2_HIGH_P00", "EXP2 HIGH P00"], ["EXP2_HIGH_P10", "EXP2 HIGH P10"], ["EXP2_HIGH_P20", "EXP2 HIGH P20"],
+      ["EXP2_HIGH_P30", "EXP2 HIGH P30"], ["EXP2_HIGH_P40", "EXP2 HIGH P40"],
+    ],
+  },
+  {
+    label: "EXP3 · 킥보드 이동 정책",
+    options: [
+      ["EXP3_BASELINE", "EXP3 Baseline"], ["EXP3_ROAD_ONLY", "EXP3 Road Only"], ["EXP3_SHARED_PATH", "EXP3 Shared Path"],
+    ],
+  },
+  {
+    label: "EXP4 · 킥보드 속도",
+    options: [
+      ["EXP4_SPEED_10", "EXP4 10 km/h"], ["EXP4_SPEED_15", "EXP4 15 km/h"],
+      ["EXP4_SPEED_20", "EXP4 20 km/h"], ["EXP4_SPEED_25", "EXP4 25 km/h"],
+    ],
+  },
+  {
+    label: "EXP5 · 위험 행동 · 횡단보도",
+    options: [
+      ["EXP5_BASELINE", "EXP5 Baseline"], ["EXP5_WRONG_WAY", "EXP5 역주행"], ["EXP5_JAYWALKING", "EXP5 고빈도 무단횡단"],
+      ["EXP5_CROSSWALK_RIDING", "EXP5 횡단보도 정속주행"], ["EXP5_CROSSWALK_DISMOUNT", "EXP5 횡단보도 하차도보"],
+    ],
+  },
 ];
 
 const STATUS_LABEL = { running: "실행 중", paused: "일시정지", stopped: "정지" };
@@ -123,7 +166,11 @@ export function TrafficSafetyPanel() {
         <label className="block text-[12px] font-[800] text-[var(--colors-ink-subtle)]">
           시나리오
           <select value={scenario} onChange={(event) => setScenario(event.target.value)} className="mt-1 h-9 w-full rounded-md border border-[var(--colors-hairline)] bg-[var(--colors-surface-1)] px-2 text-sm text-[var(--colors-ink)]">
-            {SCENARIOS.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+            {SCENARIO_GROUPS.map((group) => (
+              <optgroup key={group.label} label={group.label}>
+                {group.options.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+              </optgroup>
+            ))}
           </select>
         </label>
         <div className="grid grid-cols-3 gap-2">
@@ -138,7 +185,7 @@ export function TrafficSafetyPanel() {
             <input type="checkbox" checked={eventsEnabled} onChange={(event) => setEventsEnabled(event.target.checked)} /> 위험 이벤트
           </label>
           <select aria-label="시뮬레이션 속도" value={speed} onChange={(event) => setSimulationSpeed(event.target.value)} className="h-8 rounded-md border border-[var(--colors-hairline)] bg-[var(--colors-surface-1)] px-2 text-xs">
-            {[0.5, 1, 2, 4].map((value) => <option key={value} value={value}>×{value}</option>)}
+            {[0.5, 1, 2, 4, 8, 10].map((value) => <option key={value} value={value}>×{value}</option>)}
           </select>
         </div>
         <div className="grid grid-cols-4 overflow-hidden rounded-md border border-[var(--colors-hairline)]">

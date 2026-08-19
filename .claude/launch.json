@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "frontend-legacy",
+      "runtimeExecutable": "powershell.exe",
+      "runtimeArgs": ["-NoProfile", "-Command", "cd frontend; bun run dev:legacy"],
+      "port": 5173
+    }
+  ]
+}
