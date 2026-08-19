@@ -127,7 +127,7 @@ def _git_commit_hash() -> Optional[str]:
 COMPLETED_TRIP_FIELDS = [
     "run_id", "agent_id", "agent_type", "trip_id", "origin", "destination",
     "spawned_at", "trip_start_time", "completed_at", "travel_time",
-    "waiting_time", "trip_distance",
+    "waiting_time", "trip_distance", "partial_initial_segment",
 ]
 
 AGENT_SUMMARY_FIELDS = [
@@ -374,15 +374,27 @@ class SimulationRunRecorder:
         try:
             self._touch_agent(run, entity, simulation_time)
             metrics = entity.get("metrics") or {}
+            spawn_time = float(entity.get("spawn_time", 0.0))
+            trip_start_time = float(entity.get("trip_start_time", 0.0))
+            # True only for an agent's very first trip in the run, when the
+            # initial population is deliberately spawned partway (0-78%)
+            # along its route instead of at the true origin (see
+            # SimulationEngine._spawn_entities) so agents don't all cluster
+            # at t=0. For that one trip, trip_distance measures only the
+            # remaining route segment, not the full origin->destination
+            # distance -- exclude these rows before averaging trip_distance
+            # by origin/destination pair.
+            partial_initial_segment = bool(entity.get("spawned_mid_route")) and math.isclose(trip_start_time, spawn_time, abs_tol=1e-9)
             row = {
                 "run_id": run.run_id, "agent_id": entity["id"], "agent_type": entity.get("type"),
                 "trip_id": entity.get("trip_id"), "origin": entity.get("origin"), "destination": entity.get("destination"),
-                "spawned_at": round(float(entity.get("spawn_time", 0.0)), 3),
-                "trip_start_time": round(float(entity.get("trip_start_time", 0.0)), 3),
+                "spawned_at": round(spawn_time, 3),
+                "trip_start_time": round(trip_start_time, 3),
                 "completed_at": round(float(simulation_time), 3),
                 "travel_time": round(float(metrics.get("travel_time", 0.0)), 3),
                 "waiting_time": round(float(metrics.get("waiting_time", 0.0)), 3),
                 "trip_distance": round(float(metrics.get("trip_distance", 0.0)), 3),
+                "partial_initial_segment": partial_initial_segment,
             }
             run.trip_writer.writerow(row)
             run.trip_file.flush()

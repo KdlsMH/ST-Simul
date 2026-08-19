@@ -129,6 +129,7 @@ class SimulationEngine:
             "edge_kind": None,
             "in_crosswalk": False,
             "in_risk_zone": False,
+            "spawned_mid_route": False,
             "active": True,
             "visible": True,
             "signal_violation": False,
@@ -181,6 +182,11 @@ class SimulationEngine:
                         distance = candidate
                         break
                 entity["route_distance"] = distance
+                # Recorded so the Run Recorder can flag this agent's first
+                # completed trip as a partial segment: its trip_distance will
+                # be shorter than the true origin->destination distance,
+                # since it started mid-route rather than at route_distance=0.
+                entity["spawned_mid_route"] = distance > 1e-6
                 x, z, heading, segment = self.graph.interpolate(path, distance, entity_type)
                 entity.update({"x": x, "z": z, "previous_x": x, "previous_z": z, "heading": heading, "current_segment": segment, "route_progress": distance / path.total_length})
                 self._update_spatial_state(entity, path, segment)
