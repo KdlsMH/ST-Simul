@@ -96,3 +96,9 @@ tmp/
 # 프로젝트별 Python 가상환경
 # =========================
 .venv-vision/
+.venv-simulation/
+
+# =========================
+# Run Recorder output
+# =========================
+simulation_output/
