@@ -1,0 +1,2881 @@
+{
+  "metadata": {
+    "project": "campus_digital_twin",
+    "layer": "weather_microclimate",
+    "description": "weather/에너지환경 도메인 전용 element별 미기후 feature 스키마. 현재 값은 추정 기반 시뮬레이션용이며, 추후 현장조사/GIS/문헌/재질 DB 기반으로 교체한다.",
+    "join_key": "element_id",
+    "notes": [
+      "공통 geometry/name/type은 common_elements.json을 기준으로 JOIN한다.",
+      "현재 microclimate 및 material 값은 fake/estimated data 성격의 시뮬레이션 입력이다.",
+      "복사/물리 모델은 추정 재질 특성(surface emissivity, conductivity, heat storage 등)을 사용하며, 실제 구현 시 실측/재질 데이터로 교체한다.",
+      "기존 프론트/API 호환을 위해 기존 필드는 유지하고, 신규 재질 필드는 additive로 확장한다."
+    ]
+  },
+  "features": [
+    {
+      "element_id": "BLD_A1",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.3,
+        "vegetation_ratio": 0.147,
+        "shade_factor": 0.256,
+        "ventilation_factor": 0.689,
+        "building_density": 0.406,
+        "facade_reflectivity": 0.212,
+        "sky_view_factor": 0.659
+      }
+    },
+    {
+      "element_id": "BLD_A2",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.16,
+        "shade_factor": 0.259,
+        "ventilation_factor": 0.696,
+        "building_density": 0.396,
+        "facade_reflectivity": 0.206,
+        "sky_view_factor": 0.65
+      }
+    },
+    {
+      "element_id": "BLD_A3",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.116,
+        "shade_factor": 0.265,
+        "ventilation_factor": 0.707,
+        "building_density": 0.422,
+        "facade_reflectivity": 0.206,
+        "sky_view_factor": 0.654
+      }
+    },
+    {
+      "element_id": "BLD_A4",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.24,
+        "vegetation_ratio": 0.215,
+        "shade_factor": 0.295,
+        "ventilation_factor": 0.635,
+        "building_density": 0.62,
+        "facade_reflectivity": 0.192,
+        "sky_view_factor": 0.503
+      }
+    },
+    {
+      "element_id": "BLD_A5",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.24,
+        "vegetation_ratio": 0.223,
+        "shade_factor": 0.312,
+        "ventilation_factor": 0.6,
+        "building_density": 0.53,
+        "facade_reflectivity": 0.217,
+        "sky_view_factor": 0.585
+      }
+    },
+    {
+      "element_id": "BLD_A6",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.24,
+        "vegetation_ratio": 0.215,
+        "shade_factor": 0.331,
+        "ventilation_factor": 0.622,
+        "building_density": 0.574,
+        "facade_reflectivity": 0.194,
+        "sky_view_factor": 0.583
+      }
+    },
+    {
+      "element_id": "BLD_A7",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.24,
+        "vegetation_ratio": 0.216,
+        "shade_factor": 0.326,
+        "ventilation_factor": 0.638,
+        "building_density": 0.614,
+        "facade_reflectivity": 0.21,
+        "sky_view_factor": 0.497
+      }
+    },
+    {
+      "element_id": "BLD_A8",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.24,
+        "vegetation_ratio": 0.186,
+        "shade_factor": 0.309,
+        "ventilation_factor": 0.599,
+        "building_density": 0.537,
+        "facade_reflectivity": 0.18,
+        "sky_view_factor": 0.569
+      }
+    },
+    {
+      "element_id": "BLD_A9",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.24,
+        "vegetation_ratio": 0.207,
+        "shade_factor": 0.313,
+        "ventilation_factor": 0.614,
+        "building_density": 0.535,
+        "facade_reflectivity": 0.188,
+        "sky_view_factor": 0.602
+      }
+    },
+    {
+      "element_id": "BLD_A10",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.22,
+        "vegetation_ratio": 0.127,
+        "shade_factor": 0.255,
+        "ventilation_factor": 0.684,
+        "building_density": 0.411,
+        "facade_reflectivity": 0.163,
+        "sky_view_factor": 0.644
+      }
+    },
+    {
+      "element_id": "BLD_A11",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.22,
+        "vegetation_ratio": 0.144,
+        "shade_factor": 0.257,
+        "ventilation_factor": 0.703,
+        "building_density": 0.409,
+        "facade_reflectivity": 0.197,
+        "sky_view_factor": 0.664
+      }
+    },
+    {
+      "element_id": "BLD_A12",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.22,
+        "vegetation_ratio": 0.106,
+        "shade_factor": 0.227,
+        "ventilation_factor": 0.691,
+        "building_density": 0.388,
+        "facade_reflectivity": 0.166,
+        "sky_view_factor": 0.672
+      }
+    },
+    {
+      "element_id": "BLD_A13",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.22,
+        "vegetation_ratio": 0.139,
+        "shade_factor": 0.241,
+        "ventilation_factor": 0.708,
+        "building_density": 0.395,
+        "facade_reflectivity": 0.201,
+        "sky_view_factor": 0.648
+      }
+    },
+    {
+      "element_id": "BLD_A14",
+      "zone_id": "zone_A",
+      "element_type": "facility",
+      "microclimate": {
+        "surface_type": "grass",
+        "albedo": 0.18,
+        "vegetation_ratio": 0.458,
+        "shade_factor": 0.037,
+        "ventilation_factor": 0.953,
+        "building_density": 0.038,
+        "facade_reflectivity": 0.054,
+        "sky_view_factor": 0.97
+      }
+    },
+    {
+      "element_id": "BLD_A15",
+      "zone_id": "zone_A",
+      "element_type": "facility",
+      "microclimate": {
+        "surface_type": "grass",
+        "albedo": 0.18,
+        "vegetation_ratio": 0.465,
+        "shade_factor": 0.036,
+        "ventilation_factor": 0.975,
+        "building_density": 0.05,
+        "facade_reflectivity": 0.03,
+        "sky_view_factor": 0.927
+      }
+    },
+    {
+      "element_id": "BLD_A16",
+      "zone_id": "zone_A",
+      "element_type": "facility",
+      "microclimate": {
+        "surface_type": "grass",
+        "albedo": 0.18,
+        "vegetation_ratio": 0.45,
+        "shade_factor": 0.056,
+        "ventilation_factor": 0.965,
+        "building_density": 0.046,
+        "facade_reflectivity": 0.028,
+        "sky_view_factor": 0.944
+      }
+    },
+    {
+      "element_id": "BLD_A17",
+      "zone_id": "zone_A",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.22,
+        "vegetation_ratio": 0.145,
+        "shade_factor": 0.151,
+        "ventilation_factor": 0.824,
+        "building_density": 0.218,
+        "facade_reflectivity": 0.156,
+        "sky_view_factor": 0.811
+      }
+    },
+    {
+      "element_id": "BLD_A18",
+      "zone_id": "zone_A",
+      "element_type": "facility",
+      "microclimate": {
+        "surface_type": "grass",
+        "albedo": 0.18,
+        "vegetation_ratio": 0.479,
+        "shade_factor": 0.052,
+        "ventilation_factor": 0.938,
+        "building_density": 0.057,
+        "facade_reflectivity": 0.031,
+        "sky_view_factor": 0.947
+      }
+    },
+    {
+      "element_id": "BLD_A19",
+      "zone_id": "zone_A",
+      "element_type": "facility",
+      "microclimate": {
+        "surface_type": "grass",
+        "albedo": 0.18,
+        "vegetation_ratio": 0.468,
+        "shade_factor": 0.073,
+        "ventilation_factor": 0.969,
+        "building_density": 0.038,
+        "facade_reflectivity": 0.05,
+        "sky_view_factor": 0.934
+      }
+    },
+    {
+      "element_id": "BLD_B1",
+      "zone_id": "zone_B",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.35,
+        "vegetation_ratio": 0.201,
+        "shade_factor": 0.239,
+        "ventilation_factor": 0.71,
+        "building_density": 0.357,
+        "facade_reflectivity": 0.265,
+        "sky_view_factor": 0.693
+      }
+    },
+    {
+      "element_id": "BLD_B2",
+      "zone_id": "zone_B",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.3,
+        "vegetation_ratio": 0.193,
+        "shade_factor": 0.222,
+        "ventilation_factor": 0.734,
+        "building_density": 0.352,
+        "facade_reflectivity": 0.255,
+        "sky_view_factor": 0.701
+      }
+    },
+    {
+      "element_id": "BLD_B3",
+      "zone_id": "zone_B",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.23,
+        "vegetation_ratio": 0.396,
+        "shade_factor": 0.241,
+        "ventilation_factor": 0.799,
+        "building_density": 0.327,
+        "facade_reflectivity": 0.17,
+        "sky_view_factor": 0.678
+      }
+    },
+    {
+      "element_id": "BLD_B4",
+      "zone_id": "zone_B",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.23,
+        "vegetation_ratio": 0.439,
+        "shade_factor": 0.242,
+        "ventilation_factor": 0.759,
+        "building_density": 0.309,
+        "facade_reflectivity": 0.158,
+        "sky_view_factor": 0.713
+      }
+    },
+    {
+      "element_id": "BLD_B5",
+      "zone_id": "zone_B",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "glass",
+        "albedo": 0.18,
+        "vegetation_ratio": 0.883,
+        "shade_factor": 0.381,
+        "ventilation_factor": 0.899,
+        "building_density": 0.092,
+        "facade_reflectivity": 0.288,
+        "sky_view_factor": 0.829
+      }
+    },
+    {
+      "element_id": "BLD_B6",
+      "zone_id": "zone_B",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.22,
+        "vegetation_ratio": 0.136,
+        "shade_factor": 0.236,
+        "ventilation_factor": 0.702,
+        "building_density": 0.381,
+        "facade_reflectivity": 0.165,
+        "sky_view_factor": 0.671
+      }
+    },
+    {
+      "element_id": "BLD_B7",
+      "zone_id": "zone_B",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.27,
+        "vegetation_ratio": 0.365,
+        "shade_factor": 0.227,
+        "ventilation_factor": 0.777,
+        "building_density": 0.271,
+        "facade_reflectivity": 0.241,
+        "sky_view_factor": 0.736
+      }
+    },
+    {
+      "element_id": "BLD_B9",
+      "zone_id": "zone_B",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.152,
+        "shade_factor": 0.284,
+        "ventilation_factor": 0.687,
+        "building_density": 0.376,
+        "facade_reflectivity": 0.199,
+        "sky_view_factor": 0.687
+      }
+    },
+    {
+      "element_id": "BLD_C1",
+      "zone_id": "zone_C",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.3,
+        "vegetation_ratio": 0.186,
+        "shade_factor": 0.24,
+        "ventilation_factor": 0.768,
+        "building_density": 0.259,
+        "facade_reflectivity": 0.267,
+        "sky_view_factor": 0.778
+      }
+    },
+    {
+      "element_id": "BLD_C2",
+      "zone_id": "zone_C",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.23,
+        "vegetation_ratio": 0.426,
+        "shade_factor": 0.202,
+        "ventilation_factor": 0.832,
+        "building_density": 0.254,
+        "facade_reflectivity": 0.179,
+        "sky_view_factor": 0.774
+      }
+    },
+    {
+      "element_id": "BLD_C3",
+      "zone_id": "zone_C",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.23,
+        "vegetation_ratio": 0.375,
+        "shade_factor": 0.205,
+        "ventilation_factor": 0.79,
+        "building_density": 0.247,
+        "facade_reflectivity": 0.176,
+        "sky_view_factor": 0.758
+      }
+    },
+    {
+      "element_id": "BLD_C4",
+      "zone_id": "zone_C",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.191,
+        "shade_factor": 0.289,
+        "ventilation_factor": 0.754,
+        "building_density": 0.35,
+        "facade_reflectivity": 0.215,
+        "sky_view_factor": 0.682
+      }
+    },
+    {
+      "element_id": "BLD_C5",
+      "zone_id": "zone_C",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.198,
+        "shade_factor": 0.267,
+        "ventilation_factor": 0.715,
+        "building_density": 0.367,
+        "facade_reflectivity": 0.216,
+        "sky_view_factor": 0.679
+      }
+    },
+    {
+      "element_id": "BLD_C6",
+      "zone_id": "zone_C",
+      "element_type": "facility",
+      "microclimate": {
+        "surface_type": "grass",
+        "albedo": 0.18,
+        "vegetation_ratio": 0.497,
+        "shade_factor": 0.071,
+        "ventilation_factor": 0.977,
+        "building_density": 0.018,
+        "facade_reflectivity": 0.053,
+        "sky_view_factor": 0.968
+      }
+    },
+    {
+      "element_id": "BLD_D1",
+      "zone_id": "zone_D",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.26,
+        "vegetation_ratio": 0.055,
+        "shade_factor": 0.397,
+        "ventilation_factor": 0.643,
+        "building_density": 0.691,
+        "facade_reflectivity": 0.377,
+        "sky_view_factor": 0.463
+      }
+    },
+    {
+      "element_id": "BLD_D2",
+      "zone_id": "zone_D",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.22,
+        "vegetation_ratio": 0.029,
+        "shade_factor": 0.366,
+        "ventilation_factor": 0.615,
+        "building_density": 0.688,
+        "facade_reflectivity": 0.274,
+        "sky_view_factor": 0.454
+      }
+    },
+    {
+      "element_id": "BLD_D3",
+      "zone_id": "zone_D",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.22,
+        "vegetation_ratio": 0.018,
+        "shade_factor": 0.394,
+        "ventilation_factor": 0.618,
+        "building_density": 0.706,
+        "facade_reflectivity": 0.303,
+        "sky_view_factor": 0.455
+      }
+    },
+    {
+      "element_id": "BLD_D4",
+      "zone_id": "zone_D",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.22,
+        "vegetation_ratio": 0.033,
+        "shade_factor": 0.391,
+        "ventilation_factor": 0.603,
+        "building_density": 0.7,
+        "facade_reflectivity": 0.303,
+        "sky_view_factor": 0.434
+      }
+    },
+    {
+      "element_id": "BLD_E1",
+      "zone_id": "zone_E",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.132,
+        "shade_factor": 0.292,
+        "ventilation_factor": 0.678,
+        "building_density": 0.444,
+        "facade_reflectivity": 0.22,
+        "sky_view_factor": 0.668
+      }
+    },
+    {
+      "element_id": "BLD_E2",
+      "zone_id": "zone_E",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.113,
+        "shade_factor": 0.303,
+        "ventilation_factor": 0.679,
+        "building_density": 0.424,
+        "facade_reflectivity": 0.225,
+        "sky_view_factor": 0.659
+      }
+    },
+    {
+      "element_id": "BLD_E3",
+      "zone_id": "zone_E",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.117,
+        "shade_factor": 0.261,
+        "ventilation_factor": 0.72,
+        "building_density": 0.467,
+        "facade_reflectivity": 0.225,
+        "sky_view_factor": 0.606
+      }
+    },
+    {
+      "element_id": "BLD_E4",
+      "zone_id": "zone_E",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.126,
+        "shade_factor": 0.284,
+        "ventilation_factor": 0.701,
+        "building_density": 0.502,
+        "facade_reflectivity": 0.205,
+        "sky_view_factor": 0.611
+      }
+    },
+    {
+      "element_id": "BLD_E5",
+      "zone_id": "zone_E",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.117,
+        "shade_factor": 0.275,
+        "ventilation_factor": 0.709,
+        "building_density": 0.47,
+        "facade_reflectivity": 0.211,
+        "sky_view_factor": 0.613
+      }
+    },
+    {
+      "element_id": "BLD_E6",
+      "zone_id": "zone_E",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.29,
+        "vegetation_ratio": 0.109,
+        "shade_factor": 0.278,
+        "ventilation_factor": 0.725,
+        "building_density": 0.465,
+        "facade_reflectivity": 0.279,
+        "sky_view_factor": 0.636
+      }
+    },
+    {
+      "element_id": "BLD_E7",
+      "zone_id": "zone_E",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.118,
+        "shade_factor": 0.302,
+        "ventilation_factor": 0.719,
+        "building_density": 0.459,
+        "facade_reflectivity": 0.213,
+        "sky_view_factor": 0.633
+      }
+    },
+    {
+      "element_id": "BLD_E8",
+      "zone_id": "zone_E",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.147,
+        "shade_factor": 0.29,
+        "ventilation_factor": 0.706,
+        "building_density": 0.464,
+        "facade_reflectivity": 0.228,
+        "sky_view_factor": 0.625
+      }
+    },
+    {
+      "element_id": "BLD_F1",
+      "zone_id": "zone_F",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.29,
+        "vegetation_ratio": 0.186,
+        "shade_factor": 0.27,
+        "ventilation_factor": 0.748,
+        "building_density": 0.382,
+        "facade_reflectivity": 0.282,
+        "sky_view_factor": 0.681
+      }
+    },
+    {
+      "element_id": "BLD_F2",
+      "zone_id": "zone_F",
+      "element_type": "building",
+      "microclimate": {
+        "surface_type": "concrete",
+        "albedo": 0.25,
+        "vegetation_ratio": 0.15,
+        "shade_factor": 0.283,
+        "ventilation_factor": 0.729,
+        "building_density": 0.365,
+        "facade_reflectivity": 0.231,
+        "sky_view_factor": 0.685
+      }
+    },
+    {
+      "element_id": "BLD_F3",
+      "zone_id": "zone_F",
+      "element_type": "facility",
+      "microclimate": {
+        "surface_type": "grass",
+        "albedo": 0.18,
+        "vegetation_ratio": 0.507,
+        "shade_factor": 0.038,
+        "ventilation_factor": 0.989,
+        "building_density": 0.02,
+        "facade_reflectivity": 0.067,
+        "sky_view_factor": 0.98
+      }
+    },
+    {
+      "element_id": "BLD_F4",
+      "zone_id": "zone_F",
+      "element_type": "facility",
+      "microclimate": {
+        "surface_type": "grass",
+        "albedo": 0.18,
+        "vegetation_ratio": 0.496,
+        "shade_factor": 0.039,
+        "ventilation_factor": 0.965,
+        "building_density": 0.014,
+        "facade_reflectivity": 0.057,
+        "sky_view_factor": 0.988
+      }
+    },
+    {
+      "element_id": "RD_001",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_002",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_003",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_004",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_005",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_006",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_007",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_008",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_009",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_010",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_011",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_012",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_015",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_016",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_017",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_018",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_019",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_020",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_021",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_023",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_024",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_025",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_026",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_027",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_028",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_029",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_030",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_031",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_032",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_033",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_034",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_035",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_036",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_037",
+      "zone_id": "zone_A",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_038",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_039",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_040",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_041",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_042",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_043",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_044",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_045",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_046",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_047",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_048",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_049",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_050",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_051",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_052",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_053",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_054",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_055",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_056",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_057",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_058",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_059",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_060",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_061",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_062",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_063",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_064",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_065",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_066",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_067",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_068",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_069",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_070",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_071",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_072",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_073",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_074",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_075",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_076",
+      "zone_id": "zone_D",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_077",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_078",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_079",
+      "zone_id": "zone_C",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_080",
+      "zone_id": "zone_C",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_081",
+      "zone_id": "zone_C",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_082",
+      "zone_id": "zone_C",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_083",
+      "zone_id": "zone_C",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_084",
+      "zone_id": "zone_C",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_085",
+      "zone_id": "zone_C",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_086",
+      "zone_id": "zone_C",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_087",
+      "zone_id": "zone_C",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_088",
+      "zone_id": "zone_C",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_090",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_091",
+      "zone_id": "zone_B",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "RD_092",
+      "zone_id": "zone_E",
+      "element_type": "road",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_001",
+      "zone_id": "zone_B",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_002",
+      "zone_id": "zone_B",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_003",
+      "zone_id": "zone_B",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_004",
+      "zone_id": "zone_B",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_005",
+      "zone_id": "zone_B",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_006",
+      "zone_id": "zone_B",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_007",
+      "zone_id": "zone_A",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_008",
+      "zone_id": "zone_E",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_009",
+      "zone_id": "zone_E",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_010",
+      "zone_id": "zone_A",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_011",
+      "zone_id": "zone_E",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_012",
+      "zone_id": "zone_A",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_013",
+      "zone_id": "zone_B",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_014",
+      "zone_id": "zone_B",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_015",
+      "zone_id": "zone_E",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_016",
+      "zone_id": "zone_A",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_017",
+      "zone_id": "zone_E",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_018",
+      "zone_id": "zone_E",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_019",
+      "zone_id": "zone_D",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_020",
+      "zone_id": "zone_D",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_021",
+      "zone_id": "zone_D",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_022",
+      "zone_id": "zone_D",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_023",
+      "zone_id": "zone_E",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "CW_024",
+      "zone_id": "zone_A",
+      "element_type": "crosswalk",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_001",
+      "zone_id": "zone_B",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_002",
+      "zone_id": "zone_A",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_003",
+      "zone_id": "zone_A",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_004",
+      "zone_id": "zone_A",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_005",
+      "zone_id": "zone_A",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_006",
+      "zone_id": "zone_A",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_007",
+      "zone_id": "zone_A",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_008",
+      "zone_id": "zone_A",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_009",
+      "zone_id": "zone_A",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_010",
+      "zone_id": "zone_A",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_011",
+      "zone_id": "zone_A",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_012",
+      "zone_id": "zone_E",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_013",
+      "zone_id": "zone_E",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_014",
+      "zone_id": "zone_E",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_015",
+      "zone_id": "zone_E",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_016",
+      "zone_id": "zone_E",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_017",
+      "zone_id": "zone_E",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_018",
+      "zone_id": "zone_E",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_019",
+      "zone_id": "zone_E",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_020",
+      "zone_id": "zone_D",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_021",
+      "zone_id": "zone_D",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_022",
+      "zone_id": "zone_D",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_023",
+      "zone_id": "zone_C",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_024",
+      "zone_id": "zone_C",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_025",
+      "zone_id": "zone_B",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_026",
+      "zone_id": "zone_B",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_027",
+      "zone_id": "zone_E",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_028",
+      "zone_id": "zone_E",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_029",
+      "zone_id": "zone_A",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    },
+    {
+      "element_id": "ND_030",
+      "zone_id": "zone_A",
+      "element_type": "intersection",
+      "microclimate": {
+        "surface_type": null,
+        "albedo": null,
+        "vegetation_ratio": null,
+        "shade_factor": null,
+        "ventilation_factor": null,
+        "building_density": null,
+        "facade_reflectivity": null,
+        "sky_view_factor": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"/c/Users/User/AppData/Local/Temp/claude/C--ST-Simul/252c5a6c-7cf1-4051-9cce-6199925fc1ce/scratchpad/extract\")",
+      "Read(//c/Users/User/AppData/Local/Temp/claude/C--ST-Simul/252c5a6c-7cf1-4051-9cce-6199925fc1ce/scratchpad/**)",
+      "Bash(unzip -q -o \"/c/Users/User/Documents/Codex/2026-08-18/symmetrical-octo-umbrella-dev-runtime-network/outputs/setting 1.zip\" -d setting1)",
+      "Bash(unzip -q -o \"/c/Users/User/Documents/Codex/2026-08-18/new-chat/outputs/w-c set.zip\" -d wcset)",
+      "Bash(unzip -q -o '/c/Users/User/Documents/Codex/2026-08-18/new-chat/outputs/w-c set.zip' -d /c/Users/User/AppData/Local/Temp/claude/C--ST-Simul/252c5a6c-7cf1-4051-9cce-6199925fc1ce/scratchpad/extract/wcset)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(iconv -f UTF-8 -t UTF-8 \"/c/Users/User/AppData/Local/Temp/claude/C--ST-Simul/252c5a6c-7cf1-4051-9cce-6199925fc1ce/scratchpad/extract/wcset/\"*.md)"
+    ]
+  }
+}

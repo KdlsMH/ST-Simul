@@ -1,0 +1,9 @@
+fastapi
+requests
+pandas
+streamlit
+folium
+streamlit-folium
+uvicorn
+pytest
+httpx
