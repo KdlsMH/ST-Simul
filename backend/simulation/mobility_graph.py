@@ -27,6 +27,7 @@ class GraphEdge:
     road_ids: Tuple[str, ...]
     points: Tuple[Point, ...]
     length: float
+    fallback_only: bool
 
 
 @dataclass(frozen=True)
@@ -57,6 +58,7 @@ class MobilityGraph:
             "person": {"shared_path": 2.8, "sidewalk": 2.8},
             "scooter": {"shared_path": 1.4, "sidewalk": 1.4, "bike_lane": 1.4, "scooter_lane": 1.4, "allowed_road": -1.0},
         })
+        self.fallback_cost_multiplier = max(1.0, float(self.metadata.get("fallback_cost_multiplier", 3.0)))
         self.nodes: Dict[str, Dict] = {str(node["id"]): dict(node) for node in payload["nodes"]}
         self.pois: Dict[str, Dict] = {str(poi["poi_id"]): dict(poi) for poi in payload["pois"]}
         self.edges: Dict[str, GraphEdge] = {}
@@ -76,6 +78,7 @@ class MobilityGraph:
                 edge_id=str(raw["id"]), source=str(raw["from"]), target=str(raw["to"]), kind=str(raw["kind"]),
                 allowed_types=tuple(raw["allowed_types"]), speed_limit=float(raw.get("speed_limit", 10)) / 3.6,
                 road_ids=tuple(str(value) for value in raw.get("road_ids") or ()), points=points, length=length,
+                fallback_only=bool(raw.get("fallback_only", False)),
             )
             self.edges[edge.edge_id] = edge
             self.adjacency[edge.source].append((edge.target, edge, False))
@@ -131,6 +134,8 @@ class MobilityGraph:
                 if agent_type not in edge.allowed_types:
                     continue
                 factor = max(0.1, float((edge_cost_factors or {}).get(edge.edge_id, 1.0)))
+                if edge.fallback_only:
+                    factor *= self.fallback_cost_multiplier
                 candidate = cost + edge.length * self._kind_cost(agent_type, edge.kind) * factor
                 if candidate < distance.get(neighbor, math.inf):
                     distance[neighbor] = candidate

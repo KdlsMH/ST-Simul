@@ -14,8 +14,10 @@ def test_transport_network_is_traceable_and_structurally_valid():
     policy = load_policy(ROOT / "config" / "mobility_policy.json")
     report = validate(network, policy)
     assert report["valid"] is True
-    assert report["summary"]["edges"] == 364
-    assert report["summary"]["derived_edges"] == 364
+    # W-C Set integration adds measured sidewalk/crosswalk geometry on top of
+    # the derived-from-vehicle-network baseline; both edge counts grew.
+    assert report["summary"]["edges"] == 1237
+    assert report["summary"]["derived_edges"] == 578
     assert report["summary"]["authoritative_edges"] == 0
     assert all(value["connected_percent"] == 100 for value in report["connectivity"].values())
 
@@ -24,8 +26,8 @@ def test_transport_graph_builder_preserves_multimodal_connectivity():
     network = load_feature_collection(ROOT / "data" / "campus_transport_network.geojson")
     policy = load_policy(ROOT / "config" / "mobility_policy.json")
     graph = build(network, policy)
-    assert len(graph["nodes"]) == 106
-    assert len(graph["edges"]) == 364
+    assert len(graph["nodes"]) == 849
+    assert len(graph["edges"]) == 1237
     assert {edge["kind"] for edge in graph["edges"]} >= {"allowed_road", "shared_path", "crosswalk"}
 
 

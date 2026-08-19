@@ -1,27 +1,28 @@
 # Transport Network Validation
 
-- Network: `C:\Users\User\Documents\Codex\2026-08-18\symmetrical-octo-umbrella-dev-runtime-network\work\upgrade\symmetrical-octo-umbrella-dev-traffic-simulation\backend\simulation\data\campus_transport_network.geojson`
+- Network: `C:\ST_Simul\backend\simulation\data\campus_transport_network.geojson`
 - Result: **PASS**
-- Nodes / Edges / POIs: 106 / 364 / 14
-- Derived / Non-derived / Authoritative edges: 364 / 0 / 0
+- Nodes / Edges / POIs: 849 / 1237 / 14
+- Derived / Non-derived / Authoritative edges: 578 / 659 / 0
 
 ## Edge kinds
 
 - `allowed_road`: 172
 - `building_entrance`: 6
-- `crosswalk`: 47
+- `crosswalk`: 61
 - `parking_connection`: 2
 - `parking_walk`: 2
 - `pedestrian_gate`: 4
 - `scooter_parking_connection`: 2
-- `shared_path`: 125
+- `shared_path`: 233
+- `sidewalk`: 751
 - `vehicle_gate`: 4
 
 ## Connectivity
 
 - car: 178 edges, 1 components, largest coverage 100.0%
-- person: 184 edges, 1 components, largest coverage 100.0%
-- scooter: 360 edges, 1 components, largest coverage 100.0%
+- person: 1057 edges, 1 components, largest coverage 100.0%
+- scooter: 482 edges, 1 components, largest coverage 100.0%
 
 ## Errors
 
@@ -35,5 +36,3 @@
 - `DUPLICATE_NODE_POSITION` — `-` 
 - `DUPLICATE_NODE_POSITION` — `-` 
 - `DUPLICATE_NODE_POSITION` — `-` 
-- `CROSSWALK_WITHOUT_PEDESTRIAN_CONNECTION` — `EDGE_0262_walk` 
-- `CROSSWALK_WITHOUT_PEDESTRIAN_CONNECTION` — `EDGE_0300_walk` 

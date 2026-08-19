@@ -1,0 +1,20 @@
+{
+  "walkway_source_features": 82,
+  "walkway_line_parts": 88,
+  "sidewalk_nodes": 659,
+  "sidewalk_edges": 659,
+  "sidewalk_components_total": 57,
+  "sidewalk_components_integrated": 34,
+  "sidewalk_components_excluded": 23,
+  "skipped_short_segments": 134,
+  "component_connectors": 34,
+  "component_connector_max_m": 26.534,
+  "crosswalk_source_features": 31,
+  "crosswalk_edges": 14,
+  "crosswalks_excluded_by_access_distance": 3,
+  "crosswalks_excluded_by_vehicle_alignment": 14,
+  "crosswalk_access_connectors": 20,
+  "crosswalk_access_max_m": 12.533,
+  "generated_nodes": 743,
+  "generated_edges": 873
+}

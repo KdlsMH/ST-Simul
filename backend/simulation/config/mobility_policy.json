@@ -24,9 +24,10 @@
   },
   "derived_lateral_offsets_m": {
     "car": {},
-    "person": {"shared_path": 2.8, "sidewalk": 2.8},
+    "person": {"shared_path": 2.8, "sidewalk": 0.0},
     "scooter": {"shared_path": 1.4, "sidewalk": 1.4, "bike_lane": 1.4, "scooter_lane": 1.4, "allowed_road": -1.0}
   },
+  "fallback_cost_multiplier": 3.0,
   "offset_note": "Development-only visual/movement separation for routes derived from a vehicle centerline; not surveyed geometry.",
   "source": "implementation_specific_policy",
   "confidence": null

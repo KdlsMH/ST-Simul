@@ -43,6 +43,7 @@ def build(network: dict, policy: dict, authoritative_only: bool = False) -> dict
             "road_ids": list(props.get("road_ids") or ([props["crosswalk_id"]] if props.get("crosswalk_id") else [])),
             "coordinates": feature.coordinates,
             "derived": bool(props.get("derived", False)),
+            "fallback_only": bool(props.get("fallback_only", False)),
             "source": props.get("source", "unknown"),
             "confidence": props.get("confidence"),
         })
@@ -67,6 +68,7 @@ def build(network: dict, policy: dict, authoritative_only: bool = False) -> dict
             "routing": "bidirectional weighted graph; shortest path filtered by allowed_types",
             "derived_lateral_offsets_m": policy.get("derived_lateral_offsets_m", {}),
             "offset_note": policy.get("offset_note"),
+            "fallback_cost_multiplier": policy.get("fallback_cost_multiplier", 3.0),
         },
         "nodes": nodes, "edges": edges, "pois": pois,
     }
