@@ -77,3 +77,15 @@ SIMULATION_PROVIDER=sumo
 SUMO_BINARY=sumo
 SUMO_CONFIG_PATH=simulation/sumo/campus.sumocfg
 ```
+
+## Context-aware Speed / Yield Behavior Model
+
+`campus_behavior.py` + `config/campus_behavior_config.json`이 기존 Free-flow speed / TTC / Clearance / Car-following 로직 위에 상황 인지 감속을 추가합니다. TTC/PET/충돌 판정은 새로 계산하지 않고 `risk_engine.py`가 이미 계산한 값만 재사용합니다.
+
+- `max_speed → free_flow_speed → desired_speed → (가속도 제한) → current_speed` 구조를 유지합니다. `desired_speed`(자유주행 목표)는 `trip_manager.desired_speed()`가 그대로 계산하고, `campus_behavior`는 그 위에 도로 Context/횡단보도 정책/보행자 Yield/보행자 밀도 factor를 곱해 최종 목표 속도(`_base_target`의 반환값)를 낮출 뿐입니다.
+- **Road Context**: 실제 Edge `kind`(shared_path/crosswalk/parking_connection/building_entrance 등)와 경로상의 다가오는 횡단보도까지 거리만으로 `CAMPUS_ROAD/SHARED_ZONE/CROSSWALK_APPROACH/CROSSWALK/PARKING_CONNECTION/PEDESTRIAN_PRIORITY_ZONE`을 분류합니다. 이 파생 Network에는 도로 폭/차선 등급 원본 데이터가 없어 `MAIN_ROAD`/`NARROW_ROAD`/`ALLEY`는 구분하지 않습니다(`campus_behavior_config.json`의 `road_context_note` 참고). 실제 폭 데이터가 생기면 이 Factor 테이블에 새 Context를 추가하기만 하면 됩니다.
+- **횡단보도 Scooter 정책**: `scenario["crosswalk_policy"]`가 `ride_through`(EXP5_CROSSWALK_RIDING, 자유주행 유지) / `slow_riding`(EXP5_CROSSWALK_SLOW, 기본값, 6 km/h) / `dismount`(EXP5_CROSSWALK_DISMOUNT, 1.4 m/s)를 선택합니다. 지정하지 않은 기존 Scenario는 오늘까지의 동작(고정 0.55배)과 동일한 `slow_riding`이 기본값입니다.
+- **보행자 Yield**: Car/Scooter가 보행자와 접근/경로교차/근접 상황일 때 Clearance·TTC 기반 Factor(설정값은 `campus_behavior_config.json`의 `pedestrian_influence_*`)로 감속하며, 그 결과가 `behavior_state`(`NORMAL/CAUTION/YIELD/STOP`)로 Entity에 저장됩니다. 반경 내 보행자 수는 Interaction Broad-phase(기존 Spatial Index)에서 함께 집계해 `pedestrian_density_curve`로 추가 감속하되, EXP2 독립변수 효과를 직접 만들기 위한 곱셈이 아니라 실제 근접 Interaction이 있을 때만 적용됩니다.
+- **Car/Scooter Following**: 기존 Car-following 비례 감속 공식을 `following_lookahead_m`/`following_min_gap_m`로 설정화하고 Scooter-following-Scooter/Car에도 동일 공식을 적용합니다. 추월은 구현하지 않습니다.
+- **EXP4/EXP5 보존**: Scenario의 `speed_multiplier`/`scooter_speed_multiplier`/`crosswalk_policy`는 자유주행 기준값으로만 쓰이고, Context/Yield Factor는 그 기준값에 곱해지는 상대적 감속이라 방해 요소가 없으면 Scenario 차이가 그대로 나타납니다(`tests/test_campus_behavior.py`의 SPEED-9/SPEED-10 참고).
+- **Recorder 연동**: `manifest.json`의 `behavior_model`/`behavior_config_hash`, `simulation_statistics.json`의 `behavior`(평균/p50/p95 속도, Yield/Stop/Caution/Crosswalk-yield 횟수), `risk_events.jsonl`의 `agent_speeds/agent_desired_speeds/agent_behavior_states/agent_road_contexts/nearby_pedestrian_count`가 모두 이 모델의 결과를 그대로 기록합니다. `campus_behavior_config.json`/`behavior_profiles.json` 값이 바뀌면 (파일이 아니라 엔진에 실제로 로드된 값 기준으로) `config_hash`/`behavior_config_hash`도 함께 바뀝니다.

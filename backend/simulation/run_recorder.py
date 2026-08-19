@@ -59,6 +59,8 @@ from typing import Dict, Iterable, List, Optional
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_OUTPUT_ROOT = Path(os.getenv("SIMULATION_RUN_OUTPUT_DIR") or (REPO_ROOT / "simulation_output"))
 SIMULATION_ENGINE_VERSION = "1.0.0"  # keep aligned with FastAPI app version in main.py
+BEHAVIOR_MODEL_NAME = "campus_context_aware"
+BEHAVIOR_MODEL_VERSION = "1.0"
 
 RUN_DIR_PATTERN = re.compile(r"^run_\d{8}_\d{6}_[0-9a-f]{1,16}$")
 RUN_ID_PATTERN = re.compile(r"^run_[0-9a-f]{6,32}$")
@@ -428,7 +430,13 @@ class SimulationRunRecorder:
             raise RuntimeError("could not allocate a unique run directory")
 
         network_hash = _canonical_sha256(getattr(engine, "graph_payload", {}))
-        config_hash = _canonical_sha256(self._config_payload())
+        config_payload = self._config_payload()
+        config_hash = _canonical_sha256(config_payload)
+        behavior_config_hash = _canonical_sha256({
+            "behavior_profiles": config_payload["behavior_profiles"],
+            "campus_behavior_config": config_payload["campus_behavior_config"],
+            "crosswalk_policy": engine.scenario.get("crosswalk_policy"),
+        })
 
         manifest = {
             "schema_version": "1.0",
@@ -448,6 +456,17 @@ class SimulationRunRecorder:
             "environment": {"python_version": sys.version.split()[0], "platform": sys.platform},
             "network_hash": network_hash,
             "config_hash": config_hash,
+            "behavior_config_hash": behavior_config_hash,
+            "behavior_model": {
+                "name": BEHAVIOR_MODEL_NAME,
+                "version": BEHAVIOR_MODEL_VERSION,
+                "vehicle_pedestrian_yield": True,
+                "scooter_pedestrian_yield": True,
+                "context_speed_control": True,
+                "smooth_acceleration": True,
+                "pedestrian_density_response": True,
+                "crosswalk_policy_applied": engine.scenario.get("crosswalk_policy") or engine.campus_behavior.default_crosswalk_policy,
+            },
             "status": "running",
             "termination_reason": None,
             "pause_history": [],
@@ -467,14 +486,21 @@ class SimulationRunRecorder:
     def _config_payload(self) -> Dict:
         engine = self.engine
         risk_config_path = engine.data_dir / "risk_config.json"
-        behavior_config_path = Path(__file__).resolve().parent / "config" / "behavior_profiles.json"
         return {
             "scenario_id": engine.scenario_name,
             "scenario": engine.scenario,
             "risk_config": _read_json_if_exists(risk_config_path),
-            "behavior_profiles": _read_json_if_exists(behavior_config_path),
+            # Hash the config actually parsed into the running engine/behavior
+            # objects (BehaviorManager.config, CampusBehaviorConfig.raw)
+            # rather than re-reading the files from disk: this reflects what
+            # is genuinely driving this run even if the on-disk file were
+            # edited concurrently, and makes the hash correctly sensitive to
+            # any in-memory override, not just file edits.
+            "behavior_profiles": getattr(engine.behaviors, "config", None),
+            "campus_behavior_config": getattr(engine.campus_behavior, "raw", None),
             "fallback_cost_multiplier": getattr(engine.graph, "fallback_cost_multiplier", None),
             "simulation_engine_version": SIMULATION_ENGINE_VERSION,
+            "behavior_model_version": BEHAVIOR_MODEL_VERSION,
             "nominal_step_sec": self._nominal_step_sec,
         }
 
@@ -519,6 +545,22 @@ class SimulationRunRecorder:
             "severity": event.get("risk_level"),
             "risk_score": event.get("risk_score"),
             "location_id": event.get("location_id"),
+            # Behavior-model context (see campus_behavior.py), aligned
+            # positionally with involved_agent_ids -- already computed by the
+            # engine/InteractionManager each step, only read here.
+            "agent_speeds": [round(float((entities.get(agent_id) or {}).get("speed", 0.0)), 3) for agent_id in object_ids],
+            "agent_desired_speeds": [round(float((entities.get(agent_id) or {}).get("desired_speed", 0.0)), 3) for agent_id in object_ids],
+            "agent_behavior_states": [(entities.get(agent_id) or {}).get("behavior_state") for agent_id in object_ids],
+            # road_context is only ever computed for car/scooter (see
+            # SimulationEngine._update_spatial_state); report None for
+            # pedestrians rather than their unused CAMPUS_ROAD default.
+            "agent_road_contexts": [
+                (entities.get(agent_id) or {}).get("road_context") if (entities.get(agent_id) or {}).get("type") in ("car", "scooter") else None
+                for agent_id in object_ids
+            ],
+            "nearby_pedestrian_count": max(
+                (int((entities.get(agent_id) or {}).get("nearby_pedestrian_count", 0)) for agent_id in object_ids), default=0,
+            ),
         }
         run.risk_file.write(json.dumps(_json_safe(row), ensure_ascii=False) + "\n")
         run.risk_file.flush()
@@ -679,6 +721,10 @@ class SimulationRunRecorder:
                 "scooter_avg_travel_time": _avg_or_none("scooter"),
                 "pedestrian_avg_travel_time": _avg_or_none("person"),
                 "units": {"avg_travel_time": "sec", "avg_waiting_time": "sec", "throughput": "trips / run duration"},
+            },
+            "behavior": {
+                **statistics.get("behavior", {}),
+                "units": {"mean_speed": "m/s", "speed_p50": "m/s", "speed_p95": "m/s"},
             },
         }
 

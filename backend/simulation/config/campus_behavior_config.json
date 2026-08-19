@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "parameter_status": "ASSUMED_DEFAULT; implementation-specific values pending calibration against observed campus data, consistent with behavior_profiles.json/risk_config.json conventions. Not claimed as measured campus behavior.",
+  "road_context_speed_factor": {
+    "CAMPUS_ROAD": 1.0,
+    "SHARED_ZONE": 0.55,
+    "CROSSWALK_APPROACH": 0.75,
+    "PARKING_CONNECTION": 0.5,
+    "PEDESTRIAN_PRIORITY_ZONE": 0.4
+  },
+  "road_context_note": "This derived network carries no road-width/lane-class source data, so MAIN_ROAD vs NARROW_ROAD/ALLEY are not distinguishable among allowed_road edges; all such edges are classified CAMPUS_ROAD rather than guessed from road-name text. CROSSWALK_APPROACH is geometrically derived from the route's own upcoming-crosswalk lookahead, not fabricated geometry.",
+  "crosswalk_approach_lookahead_m": {"car": 20.0, "scooter": 12.0},
+  "crosswalk_policy_speed_kmh": {
+    "ride_through": null,
+    "slow_riding": 6.0
+  },
+  "crosswalk_policy_note": "ride_through keeps the scenario/free-flow speed as the crosswalk target (EXP5_CROSSWALK_RIDING); slow_riding caps it at crosswalk_policy_speed_kmh.slow_riding (EXP5_CROSSWALK_SLOW, also today's default so existing scenarios are unaffected); dismount forces dismount_walk_speed_mps for the crosswalk segment (EXP5_CROSSWALK_DISMOUNT). Values from EXP_set.pdf.",
+  "default_crosswalk_policy": "slow_riding",
+  "dismount_walk_speed_mps": 1.4,
+  "pedestrian_density_radius_m": 10.0,
+  "pedestrian_density_curve": [[0, 1.0], [2, 0.9], [5, 0.7], [10, 0.5]],
+  "pedestrian_density_curve_note": "Piecewise-linear [nearby_pedestrian_count, speed_factor] control points; interpolated, then held flat beyond the last point. Not a fitted statistical distribution.",
+  "pedestrian_influence_zone_m": {
+    "car": {"far": 20.0, "medium": 12.0, "near": 6.0, "critical": 3.0},
+    "scooter": {"far": 12.0, "medium": 7.0, "near": 4.0, "critical": 2.0}
+  },
+  "pedestrian_influence_clearance_m": {
+    "car": {"caution_start": 9.0, "stop_at": 0.5},
+    "scooter": {"caution_start": 5.0, "stop_at": 0.4}
+  },
+  "pedestrian_influence_ttc_sec": {
+    "car": {"caution": 4.0, "yield": 2.0},
+    "scooter": {"caution": 3.0, "yield": 1.5}
+  },
+  "following_min_gap_m": {"car": 6.0, "scooter": 2.0},
+  "following_lookahead_m": {"car": 9.0, "scooter": 6.0}
+}

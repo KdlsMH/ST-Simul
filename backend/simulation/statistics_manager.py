@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from collections import Counter, deque
 from typing import Deque, Dict, Iterable, List
 
@@ -50,6 +51,16 @@ class StatisticsManager:
         self.safety_events: Deque[Dict] = deque(maxlen=500)
         self.timeline_events: Deque[Dict] = deque(maxlen=1000)
         self.pending_replays: List[Dict] = []
+        # Behaviour-model online aggregates (see campus_behavior.py). Bounded
+        # memory: a handful of counters plus one speed-histogram bucket per
+        # agent type, never per-frame/per-agent raw samples.
+        self.speed_sum: Counter = Counter()
+        self.speed_sample_count: Counter = Counter()
+        self.speed_histogram: Dict[str, Counter] = {}
+        self.pedestrian_yield_count: Counter = Counter()
+        self.pedestrian_full_stop_count: Counter = Counter()
+        self.caution_slowdown_count: Counter = Counter()
+        self.crosswalk_yield_count: Counter = Counter()
 
     def reset(self) -> None:
         self.trajectories.clear()
@@ -69,6 +80,13 @@ class StatisticsManager:
         self.safety_events.clear()
         self.timeline_events.clear()
         self.pending_replays.clear()
+        self.speed_sum.clear()
+        self.speed_sample_count.clear()
+        self.speed_histogram.clear()
+        self.pedestrian_yield_count.clear()
+        self.pedestrian_full_stop_count.clear()
+        self.caution_slowdown_count.clear()
+        self.crosswalk_yield_count.clear()
 
     def register(self, entity: Dict, simulation_time: float) -> None:
         entity["metrics"] = dict(METRIC_DEFAULTS)
@@ -148,6 +166,56 @@ class StatisticsManager:
                     metrics["wrong_way_distance"] += max(0.0, distance)
         travel_time = max(float(metrics["travel_time"]), 1e-9)
         metrics["average_speed"] = float(metrics["trip_distance"]) / travel_time
+
+    def record_behavior(self, entity: Dict) -> None:
+        """Online aggregation of the campus behavior model's already-computed
+        per-entity fields (behavior_state, pedestrian_interaction_factor,
+        crosswalk_pedestrian_yield_triggered) -- counts state *transitions*,
+        not per-frame duration, and keeps only a bounded speed histogram
+        rather than storing every sampled speed."""
+        agent_type = entity.get("type")
+        if agent_type not in ("car", "person", "scooter"):
+            return
+        speed = float(entity.get("speed", 0.0))
+        self.speed_sum[agent_type] += speed
+        self.speed_sample_count[agent_type] += 1
+        bucket = round(speed * 2) / 2.0
+        self.speed_histogram.setdefault(agent_type, Counter())[bucket] += 1
+
+        if agent_type not in ("car", "scooter"):
+            return
+        pedestrian_factor = float(entity.get("pedestrian_interaction_factor", 1.0))
+        previous_factor = float(entity.get("_previous_pedestrian_interaction_factor", 1.0))
+        if pedestrian_factor <= 0.05 and previous_factor > 0.05:
+            self.pedestrian_full_stop_count[agent_type] += 1
+        elif pedestrian_factor < 0.5 and previous_factor >= 0.5:
+            self.pedestrian_yield_count[agent_type] += 1
+        entity["_previous_pedestrian_interaction_factor"] = pedestrian_factor
+
+        state = entity.get("behavior_state", "NORMAL")
+        if state == "CAUTION" and entity.get("_previous_behavior_state", "NORMAL") == "NORMAL":
+            self.caution_slowdown_count[agent_type] += 1
+        entity["_previous_behavior_state"] = state
+
+        if entity.get("in_crosswalk"):
+            if entity.get("crosswalk_pedestrian_yield_triggered") and not entity.get("_crosswalk_yield_counted"):
+                self.crosswalk_yield_count[agent_type] += 1
+                entity["_crosswalk_yield_counted"] = True
+        else:
+            entity["_crosswalk_yield_counted"] = False
+
+    def speed_percentile(self, agent_type: str, percentile: float) -> float | None:
+        histogram = self.speed_histogram.get(agent_type)
+        if not histogram:
+            return None
+        total = sum(histogram.values())
+        target = max(1, math.ceil(total * percentile / 100.0))
+        cumulative = 0
+        for bucket in sorted(histogram):
+            cumulative += histogram[bucket]
+            if cumulative >= target:
+                return bucket
+        return sorted(histogram)[-1]
 
     def complete_trip(self, entity: Dict, simulation_time: float | None = None) -> None:
         entity_type = entity["type"]
@@ -254,6 +322,18 @@ class StatisticsManager:
             "avg_waiting_time": waiting_total / completed_total if completed_total else None,
             "completed_trip_count": completed_total,
             "throughput": completed_total / duration if duration > 0 else 0.0,
+            "behavior": {
+                "mean_speed": {
+                    key: round(self.speed_sum[key] / self.speed_sample_count[key], 3) if self.speed_sample_count[key] else None
+                    for key in ("car", "person", "scooter")
+                },
+                "speed_p50": {key: self.speed_percentile(key, 50) for key in ("car", "person", "scooter")},
+                "speed_p95": {key: self.speed_percentile(key, 95) for key in ("car", "person", "scooter")},
+                "pedestrian_yield_count": {key: self.pedestrian_yield_count[key] for key in ("car", "scooter")},
+                "pedestrian_full_stop_count": {key: self.pedestrian_full_stop_count[key] for key in ("car", "scooter")},
+                "caution_slowdown_count": {key: self.caution_slowdown_count[key] for key in ("car", "scooter")},
+                "crosswalk_yield_count": {key: self.crosswalk_yield_count[key] for key in ("car", "scooter")},
+            },
         }
 
     def trajectory(self, entity_id: str) -> List[Dict]:

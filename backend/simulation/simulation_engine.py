@@ -10,6 +10,8 @@ try:
     from .interaction_manager import InteractionManager
     from .conflict_area import ConflictAreaManager
     from .behavior_manager import BehaviorManager
+    from . import campus_behavior
+    from .campus_behavior import CampusBehaviorConfig
     from .mobility_graph import GraphPath, MobilityGraph
     from .od_manager import ODManager
     from .risk_engine import RiskEngine
@@ -22,6 +24,8 @@ except ImportError:
     from interaction_manager import InteractionManager
     from conflict_area import ConflictAreaManager
     from behavior_manager import BehaviorManager
+    import campus_behavior
+    from campus_behavior import CampusBehaviorConfig
     from mobility_graph import GraphPath, MobilityGraph
     from od_manager import ODManager
     from risk_engine import RiskEngine
@@ -54,7 +58,8 @@ class SimulationEngine:
         self.risk_engine = RiskEngine(self.data_dir / "risk_config.json")
         self.od = ODManager(self.data_dir / "od_demand.json", self.graph, self.random)
         self.trip_manager = TripManager(self.graph, self.od, self.random)
-        self.interactions = InteractionManager(self.risk_engine)
+        self.campus_behavior = CampusBehaviorConfig(Path(__file__).resolve().parent / "config" / "campus_behavior_config.json")
+        self.interactions = InteractionManager(self.risk_engine, self.campus_behavior)
         self.conflict_areas = ConflictAreaManager(self.data_dir / "conflict_areas.json")
         self.behaviors = BehaviorManager(Path(__file__).resolve().parent / "config" / "behavior_profiles.json", self.random)
         self.statistics_manager = StatisticsManager()
@@ -130,6 +135,10 @@ class SimulationEngine:
             "in_crosswalk": False,
             "in_risk_zone": False,
             "spawned_mid_route": False,
+            "road_context": "CAMPUS_ROAD",
+            "behavior_state": "NORMAL",
+            "nearby_pedestrian_count": 0,
+            "crosswalk_policy_applied": None,
             "active": True,
             "visible": True,
             "signal_violation": False,
@@ -255,6 +264,10 @@ class SimulationEngine:
             self.visited_edges[entity["type"]].add(entity["current_edge"])
         entity["in_crosswalk"] = entity["edge_kind"] == "crosswalk" or str(entity.get("road_id")).startswith("CW_")
         entity["in_risk_zone"] = entity.get("road_id") in self.risk_zone_ids
+        if entity["type"] in ("car", "scooter"):
+            entity["road_context"] = campus_behavior.road_context_for(
+                path, float(entity.get("route_distance", 0.0)), segment, entity["type"], self.campus_behavior,
+            )
         entity["current_position"] = [round(entity["x"], 3), 0.0, round(entity["z"], 3)]
         entity["previous_position"] = [round(entity["previous_x"], 3), 0.0, round(entity["previous_z"], 3)]
         if entity["type"] == "person":
@@ -280,10 +293,29 @@ class SimulationEngine:
         remaining_segment = path.cumulative_lengths[segment + 1] - float(entity["route_distance"])
         if remaining_segment < 10 and self.graph.turn_angle(path, segment) > 35:
             target *= max(0.35, remaining_segment / 10)
+        if entity["edge_kind"] != "crosswalk":
+            entity["crosswalk_policy_applied"] = None
         if entity["edge_kind"] == "crosswalk":
-            target *= 0.55 if entity["type"] != "person" else 0.9
-            if entity["type"] == "person" and self._signal_is_red(entity.get("road_id")) and not entity.get("jaywalking"):
-                target = 0.0
+            if entity["type"] == "person":
+                target *= 0.9
+                if self._signal_is_red(entity.get("road_id")) and not entity.get("jaywalking"):
+                    target = 0.0
+            elif entity["type"] == "scooter":
+                # Crosswalk base speed follows the scenario's crosswalk_policy
+                # (EXP5: ride_through/slow_riding/dismount) as an upper bound;
+                # pedestrian-yielding in InteractionManager can still reduce
+                # it further below this scenario policy target.
+                policy_speed, policy_name = campus_behavior.crosswalk_target_speed_mps(
+                    "scooter", self.scenario.get("crosswalk_policy"), target, self.campus_behavior,
+                )
+                target = min(target, policy_speed)
+                entity["crosswalk_policy_applied"] = policy_name
+            else:  # car
+                target *= 0.55
+        elif entity["type"] in ("car", "scooter"):
+            context = entity.get("road_context", "CAMPUS_ROAD")
+            if context != "CAMPUS_ROAD":
+                target *= campus_behavior.road_context_speed_factor(context, self.campus_behavior)
         if self.weather.get("rain"):
             target *= {"car": 0.82, "person": 0.9, "scooter": 0.65}[entity["type"]]
         if entity["type"] == "scooter" and float(self.weather.get("wind_speed", 0) or 0) >= 8:
@@ -353,6 +385,12 @@ class SimulationEngine:
         base_targets = {entity["id"]: self._base_target(entity, self.paths[entity["id"]]) for entity in moving}
         self._update_predictions(moving)
         targets = self.interactions.speed_constraints(moving, base_targets)
+        for entity in moving:
+            # Isolated from road-context/crosswalk-policy reduction (already
+            # baked into base_targets) so this reflects interaction-driven
+            # yielding specifically, not just "currently in a slow zone".
+            factor = targets[entity["id"]] / max(float(base_targets[entity["id"]]), 1e-6)
+            entity["behavior_state"] = campus_behavior.behavior_state_from(entity.get("interaction_state", "NONE"), factor)
         despawned: List[str] = []
         for entity in moving:
             path = self.paths[entity["id"]]
@@ -392,6 +430,7 @@ class SimulationEngine:
                 self.simulation_time,
             )
             self.statistics_manager.sample(entity, self.simulation_time)
+            self.statistics_manager.record_behavior(entity)
             if entity["route_distance"] >= path.total_length - 1e-6:
                 self.statistics_manager.complete_trip(entity, self.simulation_time)
                 if self.recorder:
