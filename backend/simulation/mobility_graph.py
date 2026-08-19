@@ -115,9 +115,10 @@ class MobilityGraph:
         destination: str,
         agent_type: str,
         edge_cost_factors: Dict[str, float] | None = None,
+        excluded_kinds: frozenset | None = None,
     ) -> GraphPath:
         cache_key = (origin, destination, agent_type)
-        if edge_cost_factors is None and cache_key in self.path_cache:
+        if edge_cost_factors is None and not excluded_kinds and cache_key in self.path_cache:
             return self.path_cache[cache_key]
         origin_node = str(self.poi(origin)["node_id"])
         destination_node = str(self.poi(destination)["node_id"])
@@ -132,6 +133,8 @@ class MobilityGraph:
                 break
             for neighbor, edge, reverse in self.adjacency.get(node_id, ()):
                 if agent_type not in edge.allowed_types:
+                    continue
+                if excluded_kinds and edge.kind in excluded_kinds:
                     continue
                 factor = max(0.1, float((edge_cost_factors or {}).get(edge.edge_id, 1.0)))
                 if edge.fallback_only:
@@ -194,7 +197,7 @@ class MobilityGraph:
             segment_lengths=segment_lengths, cumulative_lengths=tuple(cumulative), total_length=cumulative[-1],
         )
         self.paths[path.path_id] = path
-        if edge_cost_factors is None:
+        if edge_cost_factors is None and not excluded_kinds:
             self.path_cache[cache_key] = path
         return path
 

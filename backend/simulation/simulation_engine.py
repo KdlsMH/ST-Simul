@@ -41,6 +41,12 @@ ACCELERATION = {
     "person": {"up": 1.0, "down": 1.8},
     "scooter": {"up": 1.7, "down": 3.2},
 }
+# EXP3 scooter mobility policy (see EXP_set.pdf / TRAFFIC_SIMULATION_INTEGRATION.md):
+# which edge kinds scooter routing may not use for a given scenario policy.
+SCOOTER_ROUTING_EXCLUSIONS = {
+    "road_only": frozenset({"shared_path"}),
+    "shared_path": frozenset({"allowed_road"}),
+}
 
 
 class SimulationEngine:
@@ -150,7 +156,10 @@ class SimulationEngine:
             "route_geometry": "derived_offset" if self.network_runtime.get("derived_allowed") else "authoritative",
             "spawn_time": self.simulation_time,
         }
-        path = self.trip_manager.assign(entity, self.simulation_time, self.scenario_name, origin, destination)
+        path = self.trip_manager.assign(
+            entity, self.simulation_time, self.scenario_name, origin, destination,
+            excluded_kinds=self._scooter_routing_exclusion(entity_type),
+        )
         self.paths[entity_id] = path
         self.planned_edges[entity_type].update(path.edge_ids)
         entity["desired_speed"] = self.trip_manager.desired_speed(entity_type, path, self.scenario) * entity["behavior_profile"]["desired_speed_factor"]
@@ -158,6 +167,11 @@ class SimulationEngine:
         self._update_spatial_state(entity, path, 0)
         self.statistics_manager.register(entity, self.simulation_time)
         return entity
+
+    def _scooter_routing_exclusion(self, entity_type: str) -> Optional[frozenset]:
+        if entity_type != "scooter":
+            return None
+        return SCOOTER_ROUTING_EXCLUSIONS.get(self.scenario.get("scooter_routing_policy"))
 
     def _spawn_entities(self, counts: Dict[str, int]) -> None:
         self.entities.clear()
@@ -167,6 +181,7 @@ class SimulationEngine:
         self.statistics_manager.reset()
         self.od.poi_usage.clear()
         self.trip_manager.edge_usage.clear()
+        self.trip_manager.route_failures = 0
         for values in self.visited_edges.values():
             values.clear()
         for values in self.planned_edges.values():
@@ -329,7 +344,10 @@ class SimulationEngine:
             entity["dwell_remaining"] = max(0.0, float(entity["dwell_remaining"]) - dt)
             if entity["dwell_remaining"] > 0:
                 continue
-            path = self.trip_manager.next_trip(entity, self.simulation_time, self.scenario_name)
+            path = self.trip_manager.next_trip(
+                entity, self.simulation_time, self.scenario_name,
+                excluded_kinds=self._scooter_routing_exclusion(entity["type"]),
+            )
             self.statistics_manager.begin_next_trip(entity, self.simulation_time)
             self.paths[entity["id"]] = path
             self.planned_edges[entity["type"]].update(path.edge_ids)
@@ -481,12 +499,15 @@ class SimulationEngine:
                 "visited_percent": round(100 * len(self.visited_edges[agent_type]) / max(total, 1), 2),
                 "planned_percent": round(100 * len(self.planned_edges[agent_type]) / max(total, 1), 2),
             }
+        spawned_total = sum(self.statistics_manager.spawned_agents.values())
         return {
             **flat,
             **expanded,
             "current_risks": len(self.last_step_events),
             "network_runtime": dict(self.network_runtime),
             "network_coverage": coverage,
+            "route_failure_count": self.trip_manager.route_failures,
+            "route_failure_rate": round(self.trip_manager.route_failures / spawned_total, 4) if spawned_total else 0.0,
             "spatial_broad_phase": {
                 "interaction_candidates": self.interactions.spatial_index.last_candidate_count,
                 "interaction_pairs": self.interactions.spatial_index.last_pair_count,

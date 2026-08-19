@@ -720,6 +720,12 @@ class SimulationRunRecorder:
                 "car_avg_travel_time": _avg_or_none("car"),
                 "scooter_avg_travel_time": _avg_or_none("scooter"),
                 "pedestrian_avg_travel_time": _avg_or_none("person"),
+                # EXP3 (ROAD_ONLY/SHARED_PATH scooter routing policies) can
+                # make some destinations unreachable on the restricted
+                # network; route_failures counts falls back to the
+                # unrestricted network rather than a crash. See TripManager.create_path.
+                "route_failure_count": engine.trip_manager.route_failures,
+                "route_failure_rate": round(engine.trip_manager.route_failures / spawned_total, 4) if spawned_total else 0.0,
                 "units": {"avg_travel_time": "sec", "avg_waiting_time": "sec", "throughput": "trips / run duration"},
             },
             "behavior": {

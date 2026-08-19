@@ -1,22 +1,620 @@
 {
   "default": "normal",
   "scenarios": {
-    "normal": {"label": "일반", "counts": {"car": 30, "person": 100, "scooter": 30}, "speed_multiplier": 1.0, "jaywalking_probability": 0.01, "risk_events_enabled": true},
-    "rush_hour": {"label": "혼잡 시간", "counts": {"car": 45, "person": 140, "scooter": 40}, "speed_multiplier": 0.8, "jaywalking_probability": 0.03, "risk_events_enabled": true},
-    "morning_rush": {"label": "오전 등교", "counts": {"car": 45, "person": 140, "scooter": 40}, "speed_multiplier": 0.8, "jaywalking_probability": 0.03, "risk_events_enabled": true},
-    "class_change": {"label": "수업 교체", "counts": {"car": 18, "person": 150, "scooter": 36}, "speed_multiplier": 0.85, "jaywalking_probability": 0.04, "risk_events_enabled": true},
-    "lunch_time": {"label": "점심 시간", "counts": {"car": 21, "person": 120, "scooter": 32}, "speed_multiplier": 0.9, "jaywalking_probability": 0.03, "risk_events_enabled": true},
-    "leaving_campus": {"label": "하교 시간", "counts": {"car": 38, "person": 130, "scooter": 30}, "speed_multiplier": 0.9, "jaywalking_probability": 0.03, "risk_events_enabled": true},
-    "jaywalking": {"label": "무단횡단", "counts": {"car": 30, "person": 100, "scooter": 25}, "speed_multiplier": 1.0, "jaywalking_probability": 0.35, "risk_events_enabled": true},
-    "scooter_speeding": {"label": "킥보드 과속", "counts": {"car": 25, "person": 90, "scooter": 35}, "speed_multiplier": 1.0, "scooter_speed_multiplier": 1.8, "risk_events_enabled": true},
-    "scooter_wrong_way": {"label": "킥보드 역주행", "counts": {"car": 25, "person": 90, "scooter": 35}, "wrong_way_probability": 0.45, "risk_events_enabled": true},
-    "crosswalk_conflict": {"label": "횡단보도 상충", "counts": {"car": 35, "person": 120, "scooter": 30}, "jaywalking_probability": 0.2, "ignore_crosswalk_probability": 0.3, "risk_events_enabled": true},
-    "rainy_day": {"label": "우천", "counts": {"car": 30, "person": 80, "scooter": 15}, "weather": {"rain": true, "wind_speed": 3, "night": false}, "speed_multiplier": 0.75, "risk_events_enabled": true},
-    "rain": {"label": "우천", "counts": {"car": 30, "person": 80, "scooter": 15}, "weather": {"rain": true, "wind_speed": 3, "night": false}, "speed_multiplier": 0.75, "risk_events_enabled": true},
-    "night": {"label": "야간", "counts": {"car": 18, "person": 45, "scooter": 12}, "weather": {"rain": false, "wind_speed": 1, "night": true}, "speed_multiplier": 0.85, "risk_events_enabled": true},
-    "high_pedestrian_density": {"label": "보행자 밀집", "counts": {"car": 20, "person": 260, "scooter": 25}, "speed_multiplier": 0.75, "risk_events_enabled": true},
-    "high_scooter_density": {"label": "킥보드 밀집", "counts": {"car": 25, "person": 100, "scooter": 90}, "speed_multiplier": 0.9, "risk_events_enabled": true},
-    "vehicle_congestion": {"label": "차량 정체", "counts": {"car": 100, "person": 80, "scooter": 25}, "speed_multiplier": 0.55, "risk_events_enabled": true},
-    "emergency_vehicle": {"label": "긴급차량", "counts": {"car": 31, "person": 90, "scooter": 25}, "emergency_vehicle": true, "speed_multiplier": 1.0, "risk_events_enabled": true}
+    "normal": {
+      "label": "일반",
+      "counts": {
+        "car": 30,
+        "person": 100,
+        "scooter": 30
+      },
+      "speed_multiplier": 1.0,
+      "jaywalking_probability": 0.01,
+      "risk_events_enabled": true
+    },
+    "rush_hour": {
+      "label": "혼잡 시간",
+      "counts": {
+        "car": 45,
+        "person": 140,
+        "scooter": 40
+      },
+      "speed_multiplier": 0.8,
+      "jaywalking_probability": 0.03,
+      "risk_events_enabled": true
+    },
+    "morning_rush": {
+      "label": "오전 등교",
+      "counts": {
+        "car": 45,
+        "person": 140,
+        "scooter": 40
+      },
+      "speed_multiplier": 0.8,
+      "jaywalking_probability": 0.03,
+      "risk_events_enabled": true
+    },
+    "class_change": {
+      "label": "수업 교체",
+      "counts": {
+        "car": 18,
+        "person": 150,
+        "scooter": 36
+      },
+      "speed_multiplier": 0.85,
+      "jaywalking_probability": 0.04,
+      "risk_events_enabled": true
+    },
+    "lunch_time": {
+      "label": "점심 시간",
+      "counts": {
+        "car": 21,
+        "person": 120,
+        "scooter": 32
+      },
+      "speed_multiplier": 0.9,
+      "jaywalking_probability": 0.03,
+      "risk_events_enabled": true
+    },
+    "leaving_campus": {
+      "label": "하교 시간",
+      "counts": {
+        "car": 38,
+        "person": 130,
+        "scooter": 30
+      },
+      "speed_multiplier": 0.9,
+      "jaywalking_probability": 0.03,
+      "risk_events_enabled": true
+    },
+    "jaywalking": {
+      "label": "무단횡단",
+      "counts": {
+        "car": 30,
+        "person": 100,
+        "scooter": 25
+      },
+      "speed_multiplier": 1.0,
+      "jaywalking_probability": 0.35,
+      "risk_events_enabled": true
+    },
+    "scooter_speeding": {
+      "label": "킥보드 과속",
+      "counts": {
+        "car": 25,
+        "person": 90,
+        "scooter": 35
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.8,
+      "risk_events_enabled": true
+    },
+    "scooter_wrong_way": {
+      "label": "킥보드 역주행",
+      "counts": {
+        "car": 25,
+        "person": 90,
+        "scooter": 35
+      },
+      "wrong_way_probability": 0.45,
+      "risk_events_enabled": true
+    },
+    "crosswalk_conflict": {
+      "label": "횡단보도 상충",
+      "counts": {
+        "car": 35,
+        "person": 120,
+        "scooter": 30
+      },
+      "jaywalking_probability": 0.2,
+      "ignore_crosswalk_probability": 0.3,
+      "risk_events_enabled": true
+    },
+    "rainy_day": {
+      "label": "우천",
+      "counts": {
+        "car": 30,
+        "person": 80,
+        "scooter": 15
+      },
+      "weather": {
+        "rain": true,
+        "wind_speed": 3,
+        "night": false
+      },
+      "speed_multiplier": 0.75,
+      "risk_events_enabled": true
+    },
+    "rain": {
+      "label": "우천",
+      "counts": {
+        "car": 30,
+        "person": 80,
+        "scooter": 15
+      },
+      "weather": {
+        "rain": true,
+        "wind_speed": 3,
+        "night": false
+      },
+      "speed_multiplier": 0.75,
+      "risk_events_enabled": true
+    },
+    "night": {
+      "label": "야간",
+      "counts": {
+        "car": 18,
+        "person": 45,
+        "scooter": 12
+      },
+      "weather": {
+        "rain": false,
+        "wind_speed": 1,
+        "night": true
+      },
+      "speed_multiplier": 0.85,
+      "risk_events_enabled": true
+    },
+    "high_pedestrian_density": {
+      "label": "보행자 밀집",
+      "counts": {
+        "car": 20,
+        "person": 260,
+        "scooter": 25
+      },
+      "speed_multiplier": 0.75,
+      "risk_events_enabled": true
+    },
+    "high_scooter_density": {
+      "label": "킥보드 밀집",
+      "counts": {
+        "car": 25,
+        "person": 100,
+        "scooter": 90
+      },
+      "speed_multiplier": 0.9,
+      "risk_events_enabled": true
+    },
+    "vehicle_congestion": {
+      "label": "차량 정체",
+      "counts": {
+        "car": 100,
+        "person": 80,
+        "scooter": 25
+      },
+      "speed_multiplier": 0.55,
+      "risk_events_enabled": true
+    },
+    "emergency_vehicle": {
+      "label": "긴급차량",
+      "counts": {
+        "car": 31,
+        "person": 90,
+        "scooter": 25
+      },
+      "emergency_vehicle": true,
+      "speed_multiplier": 1.0,
+      "risk_events_enabled": true
+    },
+    "EXP1_P00": {
+      "counts": {
+        "car": 60,
+        "person": 60,
+        "scooter": 0
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP1 Scooter Penetration 0%"
+    },
+    "EXP1_P10": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP1 Scooter Penetration 10%"
+    },
+    "EXP1_P20": {
+      "counts": {
+        "car": 48,
+        "person": 60,
+        "scooter": 12
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP1 Scooter Penetration 20%"
+    },
+    "EXP1_P30": {
+      "counts": {
+        "car": 42,
+        "person": 60,
+        "scooter": 18
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP1 Scooter Penetration 30%"
+    },
+    "EXP1_P40": {
+      "counts": {
+        "car": 36,
+        "person": 60,
+        "scooter": 24
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP1 Scooter Penetration 40%"
+    },
+    "EXP2_LOW_P00": {
+      "counts": {
+        "car": 60,
+        "person": 30,
+        "scooter": 0
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=LOW Penetration 0%"
+    },
+    "EXP2_LOW_P10": {
+      "counts": {
+        "car": 54,
+        "person": 30,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=LOW Penetration 10%"
+    },
+    "EXP2_LOW_P20": {
+      "counts": {
+        "car": 48,
+        "person": 30,
+        "scooter": 12
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=LOW Penetration 20%"
+    },
+    "EXP2_LOW_P30": {
+      "counts": {
+        "car": 42,
+        "person": 30,
+        "scooter": 18
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=LOW Penetration 30%"
+    },
+    "EXP2_LOW_P40": {
+      "counts": {
+        "car": 36,
+        "person": 30,
+        "scooter": 24
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=LOW Penetration 40%"
+    },
+    "EXP2_NORMAL_P00": {
+      "counts": {
+        "car": 60,
+        "person": 60,
+        "scooter": 0
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=NORMAL Penetration 0%"
+    },
+    "EXP2_NORMAL_P10": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=NORMAL Penetration 10%"
+    },
+    "EXP2_NORMAL_P20": {
+      "counts": {
+        "car": 48,
+        "person": 60,
+        "scooter": 12
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=NORMAL Penetration 20%"
+    },
+    "EXP2_NORMAL_P30": {
+      "counts": {
+        "car": 42,
+        "person": 60,
+        "scooter": 18
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=NORMAL Penetration 30%"
+    },
+    "EXP2_NORMAL_P40": {
+      "counts": {
+        "car": 36,
+        "person": 60,
+        "scooter": 24
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=NORMAL Penetration 40%"
+    },
+    "EXP2_HIGH_P00": {
+      "counts": {
+        "car": 60,
+        "person": 120,
+        "scooter": 0
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=HIGH Penetration 0%"
+    },
+    "EXP2_HIGH_P10": {
+      "counts": {
+        "car": 54,
+        "person": 120,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=HIGH Penetration 10%"
+    },
+    "EXP2_HIGH_P20": {
+      "counts": {
+        "car": 48,
+        "person": 120,
+        "scooter": 12
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=HIGH Penetration 20%"
+    },
+    "EXP2_HIGH_P30": {
+      "counts": {
+        "car": 42,
+        "person": 120,
+        "scooter": 18
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=HIGH Penetration 30%"
+    },
+    "EXP2_HIGH_P40": {
+      "counts": {
+        "car": 36,
+        "person": 120,
+        "scooter": 24
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP2 Pedestrian=HIGH Penetration 40%"
+    },
+    "EXP3_BASELINE": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP3 Scooter Policy: Baseline"
+    },
+    "EXP3_ROAD_ONLY": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP3 Scooter Policy: Road Only",
+      "scooter_routing_policy": "road_only"
+    },
+    "EXP3_SHARED_PATH": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP3 Scooter Policy: Shared Path",
+      "scooter_routing_policy": "shared_path"
+    },
+    "EXP4_SPEED_10": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 0.6944,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP4 Scooter Free-flow Speed 10 km/h"
+    },
+    "EXP4_SPEED_15": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP4 Scooter Free-flow Speed 15 km/h"
+    },
+    "EXP4_SPEED_20": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.3889,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP4 Scooter Free-flow Speed 20 km/h"
+    },
+    "EXP4_SPEED_25": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.7361,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP4 Scooter Free-flow Speed 25 km/h"
+    },
+    "EXP5_BASELINE": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP5 Baseline (crosswalk slow_riding)"
+    },
+    "EXP5_WRONG_WAY": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.1,
+      "risk_events_enabled": true,
+      "label": "EXP5 Scooter Wrong-Way"
+    },
+    "EXP5_JAYWALKING": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.15,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP5 High Jaywalking"
+    },
+    "EXP5_CROSSWALK_RIDING": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP5 Crosswalk Normal-Speed Riding",
+      "crosswalk_policy": "ride_through"
+    },
+    "EXP5_CROSSWALK_DISMOUNT": {
+      "counts": {
+        "car": 54,
+        "person": 60,
+        "scooter": 6
+      },
+      "speed_multiplier": 1.0,
+      "scooter_speed_multiplier": 1.0417,
+      "jaywalking_probability": 0.02,
+      "wrong_way_probability": 0.0,
+      "risk_events_enabled": true,
+      "label": "EXP5 Crosswalk Dismount",
+      "crosswalk_policy": "dismount"
+    }
   }
 }

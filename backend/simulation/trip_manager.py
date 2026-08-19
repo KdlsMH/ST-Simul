@@ -22,8 +22,12 @@ class TripManager:
         self.random = random_source
         self.counter = 0
         self.edge_usage = Counter()
+        # Counts EXP3-style routing-policy restrictions (e.g. scooter
+        # ROAD_ONLY/SHARED_PATH) that could not find a route and fell back to
+        # the unrestricted network -- see SimulationEngine.route_failure_count.
+        self.route_failures = 0
 
-    def create_path(self, agent_type: str, origin: str, destination: str) -> GraphPath:
+    def create_path(self, agent_type: str, origin: str, destination: str, excluded_kinds: frozenset | None = None) -> GraphPath:
         diversity = self.od.route_diversity
         low, high = diversity.get("random_cost_range", [1.0, 1.0])
         per_trip = float(diversity.get("usage_penalty_per_trip", 0.0))
@@ -32,14 +36,28 @@ class TripManager:
             edge_id: self.random.uniform(float(low), float(high)) + min(maximum, self.edge_usage[edge_id] * per_trip)
             for edge_id in self.graph.edges
         }
-        path = self.graph.shortest_path(origin, destination, agent_type, factors)
+        try:
+            path = self.graph.shortest_path(origin, destination, agent_type, factors, excluded_kinds)
+        except ValueError:
+            if not excluded_kinds:
+                raise
+            # The restricted network has no route for this OD pair (e.g. a
+            # destination only reachable via the excluded edge kind). Fall
+            # back to the unrestricted network rather than crashing the
+            # simulation; route_failures records how often this happened,
+            # which is itself a meaningful EXP3 result (route_failure_rate).
+            self.route_failures += 1
+            path = self.graph.shortest_path(origin, destination, agent_type, factors)
         self.edge_usage.update(set(path.edge_ids))
         return path
 
-    def assign(self, entity: Dict, simulation_time: float, scenario_name: str, origin: str | None = None, destination: str | None = None) -> GraphPath:
+    def assign(
+        self, entity: Dict, simulation_time: float, scenario_name: str,
+        origin: str | None = None, destination: str | None = None, excluded_kinds: frozenset | None = None,
+    ) -> GraphPath:
         if origin is None or destination is None:
             origin, destination = self.od.choose(entity["type"], simulation_time, scenario_name, origin)
-        path = self.create_path(entity["type"], origin, destination)
+        path = self.create_path(entity["type"], origin, destination, excluded_kinds)
         self.counter += 1
         self.graph.poi(origin)
         destination_poi = self.graph.poi(destination)
@@ -82,7 +100,9 @@ class TripManager:
         entity["visible"] = False
         return "dwell"
 
-    def next_trip(self, entity: Dict, simulation_time: float, scenario_name: str) -> GraphPath:
+    def next_trip(
+        self, entity: Dict, simulation_time: float, scenario_name: str, excluded_kinds: frozenset | None = None,
+    ) -> GraphPath:
         current = str(entity["destination"])
         origin, destination = self.od.choose(entity["type"], simulation_time, scenario_name, current)
         if entity["type"] != "car" and destination == entity.get("origin"):
@@ -94,4 +114,4 @@ class TripManager:
             if alternatives:
                 destination = self.random.choice(alternatives)
         entity["trip_status"] = "NEXT_TRIP"
-        return self.assign(entity, simulation_time, scenario_name, origin, destination)
+        return self.assign(entity, simulation_time, scenario_name, origin, destination, excluded_kinds)

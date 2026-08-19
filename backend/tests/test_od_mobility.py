@@ -101,6 +101,26 @@ def test_crossing_car_scooter_creates_ttc_conflict_event():
     assert events[0]["ttc"] is not None
 
 
+def test_scooter_routing_policy_restricts_edge_kinds_without_route_failures():
+    # EXP3_ROAD_ONLY / EXP3_SHARED_PATH: verified (see run_recorder session
+    # notes) that no scooter POI pair becomes unreachable under either hard
+    # exclusion for this network, so no fallback should ever trigger here.
+    engine = SimulationEngine(seed=1)
+    engine.configure("normal", {"car": 20, "person": 30, "scooter": 10})
+    engine.scenario["scooter_routing_policy"] = "shared_path"
+    engine._spawn_entities(engine.base_counts)
+    engine.start()
+    for _ in range(300):
+        engine.step(0.1)
+    scooter_kinds = {
+        kind
+        for entity in engine.entities.values() if entity["type"] == "scooter"
+        for kind in (engine.paths.get(entity["id"]).edge_kinds if engine.paths.get(entity["id"]) else ())
+    }
+    assert "allowed_road" not in scooter_kinds
+    assert engine.trip_manager.route_failures == 0
+
+
 def test_scooter_decelerates_for_person_and_car_follows_leader():
     risk = RiskEngine(DATA / "risk_config.json")
     interactions = InteractionManager(risk)
