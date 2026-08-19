@@ -102,3 +102,15 @@ tmp/
 # Run Recorder output
 # =========================
 simulation_output/
+
+# =========================
+# Test / coverage 캐시
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =========================
+# Frontend 빌드 (dev:vworld 등)
+# =========================
+dist-vworld/
